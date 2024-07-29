@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import pandas as pd
+from .models import *
+from .serializers import *
+from rest_framework import generics
+
 
 # Create your views here.
 def index(request):
@@ -40,7 +44,7 @@ def index(request):
 
 
             new_data.append({
-                "Employee ID": df['emp_id'][i],
+                # "Employee ID": df['emp_id'][i],
                 "Name": df['name'][i],
                 "Start Time": start_time.strftime('%H:%M'),
                 "End Time": end_time.strftime('%H:%M'),
@@ -48,8 +52,23 @@ def index(request):
                 "Total Hours Worked": round(hours_worked, 2),
                 "Overtime Hours": round(overtime_hours, 2) if overtime_hours > 0 else 0,
             })
+
+            Employee.objects.create(
+                name=df['name'][i],
+                start_time=start_time,
+                end_time=end_time,
+                status=start_status,
+                total_hours_worked=round(hours_worked, 2),
+                overtime_status=round(overtime_hours, 2) if overtime_hours > 0 else 0
+            )
+
         return HttpResponse(pd.DataFrame(new_data).to_html())
        
 
     else:
         return render(request, 'index.html')
+    
+class EmployeeDetail(generics.RetrieveAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+    lookup_field = 'id'
