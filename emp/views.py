@@ -4,6 +4,10 @@ import pandas as pd
 from .models import Employee
 from .serializers import EmployeeSerializer
 from rest_framework import viewsets
+from .form import LoginForm
+# auth login
+from django.contrib.auth import authenticate, login, logout
+
 
 
 # Create your views here.
@@ -72,3 +76,15 @@ class EmployeeView(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
    
+def login_page(request):
+    if request.method=="POST":
+        pass
+    else:
+        data={
+            'form': LoginForm()
+        }
+        return render(request, 'login.html', data)
+        
+
+
+        
