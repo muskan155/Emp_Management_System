@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import pandas as pd
-from .models import *
-from .serializers import *
-from rest_framework import generics
+from .models import Employee
+from .serializers import EmployeeSerializer
+from rest_framework import viewsets
 
 
 # Create your views here.
@@ -68,15 +68,7 @@ def index(request):
     else:
         return render(request, 'index.html')
     
-class EmployeeDetail(generics.RetrieveAPIView):
+class EmployeeView(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
-    lookup_field = 'id'
-
-class EmployeeNameDetail(generics.RetrieveAPIView):
-    serializer_class = EmployeeSerializer
-    lookup_field = 'name'
-
-    def get_queryset(self):
-        name = self.kwargs.get('name')
-        return Employee.objects.filter(name=name)
+   

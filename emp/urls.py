@@ -1,10 +1,13 @@
-from django.urls import path
-from .views import*
-from .import views
+from django.urls import path,include
+from . import views
+from .views import *
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'/employee', EmployeeView)
 
 urlpatterns = [
     path('',views.index,name='index'),
-    path('employee/<int:id>/', EmployeeDetail.as_view(), name='employee-detail'),
-    path('employee_name/<str:name>/', EmployeeNameDetail.as_view(), name='employeenamedetail'),
+    path('api', include(router.urls)),
 
 ]

@@ -1,4 +1,4 @@
-from .models import *
+from .models import Employee
 from rest_framework import serializers
 
 
