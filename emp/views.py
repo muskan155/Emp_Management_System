@@ -72,3 +72,11 @@ class EmployeeDetail(generics.RetrieveAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
     lookup_field = 'id'
+
+class EmployeeNameDetail(generics.RetrieveAPIView):
+    serializer_class = EmployeeSerializer
+    lookup_field = 'name'
+
+    def get_queryset(self):
+        name = self.kwargs.get('name')
+        return Employee.objects.filter(name=name)

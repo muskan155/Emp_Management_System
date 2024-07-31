@@ -4,6 +4,7 @@ from .import views
 
 urlpatterns = [
     path('',views.index,name='index'),
-     path('employee/<int:id>/', EmployeeDetail.as_view(), name='employee-detail'),
+    path('employee/<int:id>/', EmployeeDetail.as_view(), name='employee-detail'),
+    path('employee_name/<str:name>/', EmployeeNameDetail.as_view(), name='employeenamedetail'),
 
 ]
