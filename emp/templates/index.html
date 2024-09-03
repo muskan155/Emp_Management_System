@@ -1,15 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    {% load static %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Employee Management System</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
   </head>
   <body>
-    <form action="" method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <input type="file" name="excel" />
-      <button>Import</button>
-    </form>
+    <div class="container">
+      <header>
+        {% if user.is_authenticated %}
+          <h1>Welcome {{ user.username }}</h1>
+        {% else %}
+          <h1>Test</h1>
+        {% endif %}
+        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+      </header>
+
+      <div class="import-section">
+        <h2>CSV Data Import Page</h2>
+        <form action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="file-upload">
+            <label for="file-input" class="custom-file-upload">
+              Choose File
+            </label>
+            <input id="file-input" type="file" name="csv" accept=".csv" />
+          </div>
+          <button type="submit" class="import-btn">Import</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
